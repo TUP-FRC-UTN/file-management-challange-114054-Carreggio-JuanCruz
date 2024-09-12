@@ -1,0 +1,35 @@
+<form #form="ngForm" (ngSubmit)="sendForm(form)">
+  <div class="container-fluid">
+    <div class="mb-3">
+      <label for="InputNombre" class="form-label" [(ngModel)]="itemArchivo.name"
+        >Nombre</label>
+      <input type="email" class="form-control" name="InputNombre" />
+    </div>
+    <div class="mb-3">
+      <label
+        for="InputFecha"
+        class="form-label"
+        [(ngModel)]="itemArchivo.creation"
+        >Fecha</label
+      >
+      <input type="text" class="form-control" name="InputFecha" />
+    </div>
+
+    <div class="mb-3">
+      <label for="fileType">Tipo de archivo</label>
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        name="fileType"
+        [(ngModel)]="itemArchivo.type"
+      >
+        @for(type of filesTypes; track $index){
+        <option [value]="type">{{ type }}</option>
+        }
+      </select>
+    </div>
+    <button type="button" class="btn btn-secondary" (click)="sendPageState()">Volver</button>
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </div>
+</form>

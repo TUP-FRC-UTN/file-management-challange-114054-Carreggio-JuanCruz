@@ -1,1 +1,8 @@
-add code here!!
+@if(formPage){
+    <app-form-file (pageState)="changeState($event)"></app-form-file>
+}
+
+@if(!formPage){
+    
+    <app-list-files (pageState)="changeState($event)" [filesList]="files"></app-list-files>
+}

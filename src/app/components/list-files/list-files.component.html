@@ -1,0 +1,39 @@
+<div class="container-fluid">
+    <h1>Archivos</h1>
+
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+        <ul class="dropdown-menu">
+            <li><button class="dropdown-item" (click)="sendPageState()">Nuevo</button></li>
+            <li><button class="dropdown-item" >Borrar</button></li>
+          </ul>
+        Acciones
+    </button>
+    
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Fecha</th>
+        <th scope="col">Dueños</th>
+    
+      </tr>
+    </thead>
+    <tbody>
+      @for (file of filesList; track $index) {
+        <tr>
+            <th scope="row">{{file.id}}</th>
+            <td>{{file.name}}</td>
+            <td>{{file.creation | date:'dd/MM/yyyy'}}</td>
+            <td>
+                @for (owner of file.owners ; track $index) {
+                    <img [src]="owner.avatarUrl" [alt]="owner.name" class="owner-avatar">
+                }
+            </td>
+          </tr>
+      }
+        
+      
+    </tbody>
+  </table>
+</div>
