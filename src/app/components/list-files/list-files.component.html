@@ -1,39 +1,55 @@
 <div class="container-fluid">
-    <h1>Archivos</h1>
-
-    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+  <div class="row m-3">
+    <div class="col">
+      <h3>Archivos</h3>
+    </div>
+    <div class="col d-flex justify-content-end"><button type="button" class="btn btn-primary dropdown-toggle "
+        data-bs-toggle="dropdown">
         <ul class="dropdown-menu">
-            <li><button class="dropdown-item" (click)="sendPageState()">Nuevo</button></li>
-            <li><button class="dropdown-item" >Borrar</button></li>
-          </ul>
+          <li><button class="dropdown-item" (click)="sendPageState()">Nuevo</button></li>
+          <li><button class="dropdown-item" (click)="deleteItems()">Borrar</button>
+          </li>
+        </ul>
         Acciones
-    </button>
-    
-<table class="table">
+      </button></div>
+  </div>
+  
+  <table class="table">
     <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col">Nombre</th>
         <th scope="col">Fecha</th>
         <th scope="col">Dueños</th>
-    
       </tr>
     </thead>
     <tbody>
       @for (file of filesList; track $index) {
-        <tr>
-            <th scope="row">{{file.id}}</th>
-            <td>{{file.name}}</td>
-            <td>{{file.creation | date:'dd/MM/yyyy'}}</td>
-            <td>
-                @for (owner of file.owners ; track $index) {
-                    <img [src]="owner.avatarUrl" [alt]="owner.name" class="owner-avatar">
-                }
-            </td>
-          </tr>
+      <tr>
+        <td>
+
+          <input class="form-check-input" type="checkbox" value="" [checked]="selectedFiles.includes(file)"
+          (change)="selectFile(file)" id="flexCheckDefault">
+        </td>
+        <td>
+          @if (file.type === FileType.FILE ) {
+          <i class="bi bi-file-earmark"></i>
+          }
+          @else {
+          <i class="bi bi-folder"></i>
+          }
+          {{file.name}}
+        </td>
+        <td>{{file.creation | date:'dd/MM/yyyy'}}</td>
+        <td>
+          @for (owner of file.owners ; track $index) {
+          <img [src]="owner.avatarUrl" [alt]="owner.name" class="owner-avatar">
+          }
+        </td>
+      </tr>
       }
-        
-      
+
+
     </tbody>
   </table>
 </div>

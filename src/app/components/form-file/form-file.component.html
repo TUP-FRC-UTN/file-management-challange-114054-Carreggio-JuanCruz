@@ -1,35 +1,91 @@
 <form #form="ngForm" (ngSubmit)="sendForm(form)">
   <div class="container-fluid">
     <div class="mb-3">
-      <label for="InputNombre" class="form-label" [(ngModel)]="itemArchivo.name"
-        >Nombre</label>
-      <input type="email" class="form-control" name="InputNombre" />
+      <label for="InputName" class="form-label">Nombre</label>
+      <input
+        [ngClass]="{'is-invalid':InputName.invalid && (InputName.dirty || InputName.touched), 'is-valid': InputName.valid}"
+        #InputName="ngModel" type="text" [(ngModel)]="itemArchivo.name" class="form-control" name="InputName" required
+        maxlength="20" />
+      @if(InputName.invalid && (InputName.dirty || InputName.touched)){
+      @if(InputName.getError('required')){
+      <div class="text-danger">
+        El nombre es obligatorio
+      </div>
+      }
+      @if(InputName.getError('maxlength')){
+      <div class="text-danger">El campo debe tener como maximo 50 caracteres</div>
+      }
+      }
     </div>
     <div class="mb-3">
-      <label
-        for="InputFecha"
-        class="form-label"
-        [(ngModel)]="itemArchivo.creation"
-        >Fecha</label
-      >
-      <input type="text" class="form-control" name="InputFecha" />
+      <label for="InputDate" class="form-label">Fecha</label>
+      <input
+        [ngClass]="{'is-invalid' : InputDate.invalid && (InputDate.dirty||InputDate.touched), 'is-valid': InputDate.valid}"
+        #InputDate="ngModel" type="date" class="form-control" name="InputDate"
+        [(ngModel)]="itemArchivo.creation" required="" />
+        @if(InputDate.getError('required')){
+          <div class="text-danger">La fecha es obligatoria</div>
+        }
     </div>
 
     <div class="mb-3">
       <label for="fileType">Tipo de archivo</label>
-      <select
-        class="form-select"
-        aria-label="Default select example"
-        name="fileType"
-        [(ngModel)]="itemArchivo.type"
-      >
-        @for(type of filesTypes; track $index){
+      <select class="form-select" aria-label="Default select example" name="fileType" [(ngModel)]="itemArchivo.type">
+        @for(type of filesTypes; track $index)
+        {
         <option [value]="type">{{ type }}</option>
         }
       </select>
     </div>
-    <button type="button" class="btn btn-secondary" (click)="sendPageState()">Volver</button>
+    <div class="mb-3">
+      <div class="mb-3">
+        <label for="parentFolder">Carpeta</label>
+        <select class="form-select" aria-label="Default select example" name="parentFolder" [(ngModel)]="itemArchivo.parentId">
+          @for(folder of existingFolders ; track folder.id)
+          {
+          <option [value]="folder.id">{{ folder.name }}</option>
+          }
+        </select>
+        
+      </div>
+    </div>
+    <div class="mb-3 ">
+      <label for="fileType">Propietarios</label>
+      <div class="d-flex">
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
+        <select class="form-select" aria-label="Default select example" name="fileType" [(ngModel)]="selectedOwner">
+          @for(owner of existingOwners; track $index)
+          {
+            <option [value]="owner">{{ owner.name }}</option>
+          }
+        </select>
+        <button class="btn btn-secondary" (click)="addOwner(selectedOwner)">+</button>
+      </div>
+
+      
+    </div>
+    <div>
+      <thead>
+        <tr>
+          <th scope="col">Nombre </th>
+          <th scope="col">Avatar</th>
+          
+        </tr>
+
+      </thead>
+      <tbody>
+        @for (owner of itemArchivo.owners; track $index) {
+          <tr>
+            <td>{{owner.name}}</td>
+            <td><img [src]="owner.avatarUrl" [alt]="owner.name"></td>
+          </tr>
+        }
+      </tbody>
+      
+      
+    </div>
+    <button type="button" class="btn btn-secondary m-2" (click)="sendPageState()">Volver</button>
+
+    <button type="submit" class="btn btn-primary" (click)="sendForm(form)">Guardar</button>
   </div>
 </form>
