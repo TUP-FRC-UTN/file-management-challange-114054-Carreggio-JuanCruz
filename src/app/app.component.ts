@@ -25,4 +25,10 @@ export class AppComponent {
   saveFile(file : FileItem){
     this.files.push(file);
   }
+  addFile(file : FileItem){
+    this.files.push(file);
+    console.log("Llega:" + file)
+    console.log("primer objeto:")
+    console.log(this.files[0].creation)
+  }
 }

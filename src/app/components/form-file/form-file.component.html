@@ -21,11 +21,14 @@
       <label for="InputDate" class="form-label">Fecha</label>
       <input
         [ngClass]="{'is-invalid' : InputDate.invalid && (InputDate.dirty||InputDate.touched), 'is-valid': InputDate.valid}"
-        #InputDate="ngModel" type="date" class="form-control" name="InputDate"
-        [(ngModel)]="itemArchivo.creation" required="" />
+        #InputDate="ngModel" type="date" class="form-control" name="InputDate" [(ngModel)]="itemArchivo.creation"
+        required="" />
+        @if(InputDate.invalid && (InputDate.dirty || InputDate.touched)){
         @if(InputDate.getError('required')){
-          <div class="text-danger">La fecha es obligatoria</div>
+        <div class="text-danger">La fecha es obligatoria</div>
+
         }
+      }
     </div>
 
     <div class="mb-3">
@@ -40,49 +43,48 @@
     <div class="mb-3">
       <div class="mb-3">
         <label for="parentFolder">Carpeta</label>
-        <select class="form-select" aria-label="Default select example" name="parentFolder" [(ngModel)]="itemArchivo.parentId">
+        <select class="form-select" name="parentFolder"
+          [(ngModel)]="itemArchivo.parentId">
           @for(folder of existingFolders ; track folder.id)
           {
           <option [value]="folder.id">{{ folder.name }}</option>
           }
         </select>
-        
+
       </div>
     </div>
     <div class="mb-3 ">
-      <label for="fileType">Propietarios</label>
+      <label for="selectOwner">Propietarios</label>
       <div class="d-flex">
 
-        <select class="form-select" aria-label="Default select example" name="fileType" [(ngModel)]="selectedOwner">
+        <select class="form-select" name="selectOwner" [(ngModel)]="selectedOwner">
           @for(owner of existingOwners; track $index)
           {
-            <option [value]="owner">{{ owner.name }}</option>
+          <option [ngValue]="owner">{{ owner.name }}</option>
           }
         </select>
-        <button class="btn btn-secondary" (click)="addOwner(selectedOwner)">+</button>
+        <button type="button" class="btn btn-secondary" (click)="addOwner(selectedOwner)">+</button>
       </div>
-
-      
     </div>
     <div>
       <thead>
         <tr>
           <th scope="col">Nombre </th>
           <th scope="col">Avatar</th>
-          
         </tr>
 
       </thead>
       <tbody>
         @for (owner of itemArchivo.owners; track $index) {
-          <tr>
-            <td>{{owner.name}}</td>
-            <td><img [src]="owner.avatarUrl" [alt]="owner.name"></td>
-          </tr>
+          
+        <tr>
+          <td>{{owner.name}}</td>
+          <td><img [src]="owner.avatarUrl" class="owner-avatar" [alt]="owner.name"></td>
+        </tr>
         }
       </tbody>
-      
-      
+
+
     </div>
     <button type="button" class="btn btn-secondary m-2" (click)="sendPageState()">Volver</button>
 

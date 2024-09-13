@@ -15,7 +15,7 @@ export class FormFileComponent {
   itemArchivo:FileItem = {
     id:" ",
     name:"",
-    creation: new Date(),
+    creation: undefined,
     owners:[],
     type:FileType.FILE,
     parentId:""
@@ -36,9 +36,13 @@ export class FormFileComponent {
   addOwner(owner : FileOwner){
     if(!this.itemArchivo.owners.includes(owner)){
       this.itemArchivo.owners.push(owner);
+      
+      this.selectedOwner = {
+        avatarUrl: '',
+        name: ''
+      }
     }
-    console.log(owner.name);
-    console.log(owner.avatarUrl)
+    
   }
   removeOwner(owner:FileOwner){
     if(this.itemArchivo.owners.includes(owner)){
@@ -53,10 +57,12 @@ export class FormFileComponent {
   sendForm(form:NgForm){
     
     if(form.valid){
-      
+      this.formOutgoing.emit(form.value);
       console.log(form.value);
+      this.sendPageState();
+      
     }
-    
+  
   }
 
  

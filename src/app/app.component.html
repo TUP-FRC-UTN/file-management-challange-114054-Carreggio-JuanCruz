@@ -1,5 +1,5 @@
 @if(formPage){
-    <app-form-file (pageState)="changeState($event)" [existingFiles]="files" ></app-form-file>
+    <app-form-file (pageState)="changeState($event)" (formOutgoing)="addFile($event)" [existingFiles]="files" ></app-form-file>
 }
 
 @if(!formPage){
